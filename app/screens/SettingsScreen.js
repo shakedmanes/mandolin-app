@@ -1,68 +1,56 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SettingsConfig from '../constants/Settings';
 import { SectionList, TextInput, StyleSheet, Text, Button, View } from 'react-native';
 
+// Section data type for rendering different items
 const SectionDataTypes = {
   TEXT_INPUT: 'textInput',
   BUTTON: 'button'
 };
 
-export default class SettingsScreen extends React.Component {  
-  render() {
-    const sections = [
-      {
-        data: [
-          {
-            value: SettingsConfig.userIdSectionValue,
-            type: SectionDataTypes.TEXT_INPUT
-          }
-        ],
-        title: SettingsConfig.userIdSectionTitle
-      },
-      {
-        data: [
-          {
-            value: SettingsConfig.syncUserSectionValue,
-            type: SectionDataTypes.BUTTON,
-            onPress: this._syncPressed
-          },
-        ],
-        title: SettingsConfig.syncUserSectionTitle,
-      },
-    ];
+export default function SettingsScreen() {
+  // User id state manager
+  const [userId, setUserId] = useState('');
 
-
-    return (
-      <SectionList
-        style={styles.container}
-        renderItem={this._renderItem}
-        renderSectionHeader={this._renderSectionHeader}
-        stickySectionHeadersEnabled={true}
-        keyExtractor={(item, index) => index}
-        ListHeaderComponent={ListHeader}
-        sections={sections}
-      />
-    );
-  }
-
-  _syncPressed = () => {
+  /**
+   * Syncing data by current user id
+   */
+  const _syncPressed = () => {
+    // TODO: Here should sync all the user playlist and stuff from `mandolin-cloud`
     console.log('Sync Button Pressed');
-  }
-
-  _renderSectionHeader = ({ section }) => {
+  };
+  
+  /**
+   * Update input text of user id
+   * @param {string} newUserId New user id received
+   */
+  const _changeUserId = (newUserId) => {
+    setUserId(newUserId);
+  };
+  
+  /**
+   * Function for render each section in SectionList
+   */
+  const _renderSectionHeader = ({ section }) => {
     return <SectionHeader title={section.title} />;
   };
 
-  _renderItem = ({ item }) => {
+  /**
+   * Function for render each item in SectionList
+   */
+  const _renderItem = ({ item }) => {
     let returnItem = null;
-    switch (item.type) {
-
-
-
+    switch (item.type) {  
+  
       case SectionDataTypes.TEXT_INPUT:
         returnItem = (
           <SectionContent>
-            <TextInput style={styles.sectionContentText} placeholder={item.value}></TextInput>
+            <TextInput 
+              style={styles.sectionContentText}
+              placeholder={item.placeholder}
+              onChangeText={item.onChangeText}
+              value={item.value}
+            />                          
           </SectionContent>
         );
         break;
@@ -74,11 +62,12 @@ export default class SettingsScreen extends React.Component {
               style={styles.sectionContentText}
               title={item.value}
               onPress={item.onPress}
+              disabled={item.disabled}             
             />                          
           </SectionContent>
         );
         break;
-
+  
       default:
         returnItem = (
           <SectionContent>
@@ -87,11 +76,46 @@ export default class SettingsScreen extends React.Component {
         )
         break;
     }
-
+  
     return returnItem;
   };
+
+  // Full sections structure
+  const sections = [
+    {
+      data: [{
+        value: userId,
+        placeholder: SettingsConfig.userIdSectionValue,
+        onChangeText: _changeUserId,   
+        type: SectionDataTypes.TEXT_INPUT     
+      }],
+      title: SettingsConfig.userIdSectionTitle     
+    },
+    {
+      data: [{
+        value: SettingsConfig.syncUserSectionValue,
+        onPress: _syncPressed,
+        disabled: userId === '',
+        type: SectionDataTypes.BUTTON
+      }],
+      title: SettingsConfig.syncUserSectionTitle
+    },
+  ];  
+
+  return (
+    <SectionList
+      style={styles.container}
+      renderItem={_renderItem}
+      renderSectionHeader={_renderSectionHeader}
+      stickySectionHeadersEnabled={true}
+      keyExtractor={(item, index) => index}
+      ListHeaderComponent={ListHeader}
+      sections={sections}
+    />
+  );
 }
 
+// Utility component for using SectionList ListHeaderComponent
 const ListHeader = () => {
 
   return (
@@ -108,6 +132,7 @@ const ListHeader = () => {
   );
 };
 
+// Utility component for having at each section header
 const SectionHeader = ({ title }) => {
   return (
     <View style={styles.sectionHeaderContainer}>
@@ -116,6 +141,7 @@ const SectionHeader = ({ title }) => {
   );
 };
 
+// Utility component for having at each section content
 const SectionContent = props => {
   return <View style={styles.sectionContentContainer}>{props.children}</View>;
 };
