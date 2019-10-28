@@ -3,6 +3,7 @@ const darkThemePrimary = '#121212';
 const darkThemePrimaryLight = '#212121';
 const darkThemeSecondary = 'white';
 const darkThemeSecondaryLight = 'rgba(255, 255, 255, 0.72)';
+const buttonColor = 'white';
 
 export default {
   tintColor,
@@ -10,6 +11,7 @@ export default {
   darkThemePrimaryLight,
   darkThemeSecondary,
   darkThemeSecondaryLight,
+  buttonColor,
   tabIconDefault: '#ccc',
   tabIconSelected: tintColor,
   tabBar: '#fefefe',

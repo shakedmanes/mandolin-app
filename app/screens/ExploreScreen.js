@@ -1,10 +1,11 @@
 import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
-import MultiList, { ListItemsTypes } from '../components/MultiList/MultiList';
+import ListItemsTypes from '../constants/ListItemsTypes'; 
+import MultiList from '../components/MultiList/MultiList';
 import ExploreConfig from '../constants/Explore';
 import Colors from '../constants/Colors';
 
-export default function ExploreScreen() {
+export default function ExploreScreen() {  
 
   const listData = [
     {
@@ -20,6 +21,21 @@ export default function ExploreScreen() {
       imageSource: require('../assets/images/youtube_logo.png'),
       contentTitle: 'Youtube',
       contentDescText: 'Explore Youtube for updating your music library'      
+    },
+    {
+      key: 'somegoodplaylist',
+      type: ListItemsTypes.PLAYLIST,
+      imageSource: require('../assets/images/youtube_logo.png'),
+      contentTitle: 'Liked Songs',
+      contentDescText: 'Tracks: 40'
+    },
+    {
+      key: 'newSong',
+      type: ListItemsTypes.SONG,
+      imageSource: require('../assets/images/song.png'),
+      contentTitle: 'KIKA',
+      contentDescUpper: '3:02',
+      contentDescText: '6ix9ine, Tory Lanez',
     }
   ];
 
