@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import SettingsConfig from '../constants/Settings';
 import { SectionList, TextInput, StyleSheet, Text, Button, View } from 'react-native';
+
+import SettingsConfig from '../constants/Settings';
+import Colors from '../constants/Colors';
 
 // Section data type for rendering different items
 const SectionDataTypes = {
@@ -46,7 +48,7 @@ export default function SettingsScreen() {
         returnItem = (
           <SectionContent>
             <TextInput 
-              style={styles.sectionContentText}
+              style={styles.sectionContentTextInput}
               placeholder={item.placeholder}
               onChangeText={item.onChangeText}
               value={item.value}
@@ -59,8 +61,9 @@ export default function SettingsScreen() {
         returnItem = (
           <SectionContent>
             <Button 
-              style={styles.sectionContentText}
+              style={styles.sectionContentButton}
               title={item.value}
+              color={'green'}
               onPress={item.onPress}
               disabled={item.disabled}             
             />                          
@@ -153,7 +156,7 @@ SettingsScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.darkThemePrimary,
   },
   titleContainer: {
     paddingHorizontal: 15,
@@ -162,15 +165,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   sectionHeaderContainer: {
-    backgroundColor: '#fbfbfb',
+    backgroundColor: Colors.darkThemePrimaryLight,
     paddingVertical: 8,
     paddingHorizontal: 15,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#ededed',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderLeftWidth: StyleSheet.hairlineWidth,
+    // borderColor: '#ededed',
+    borderColor: 'green'
   },
   sectionHeaderText: {
     fontSize: 14,
     fontWeight: '500',
+    color: Colors.darkThemeSecondary
   },
   sectionContentContainer: {
     paddingTop: 8,
@@ -182,13 +188,27 @@ const styles = StyleSheet.create({
     fontSize: 14,
     width: '99%',
   },
+  sectionContentTextInput: {
+    color: '#808080',
+    fontSize: 14,
+    width: '99%',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderColor: Colors.darkThemeSecondaryLight
+  },
+  sectionContentButton: {
+    width: '99%',
+    fontSize: 16,
+    
+  },
   settingsDesctiptionTitle: {
     fontWeight: '600',
     fontSize: 18,
+    color: 'green'
   },
   descriptionText: {
     fontSize: 14,
     marginTop: 6,
-    color: '#4d4d4d',
+    // color: '#4d4d4d',
+    color: Colors.darkThemeSecondaryLight
   },
 });
